@@ -100,11 +100,14 @@ def parse_judge_json(raw_output: str) -> LLMJudgeResult:
 def _json_candidates(raw_output: str) -> list[str]:
     stripped = raw_output.strip()
     candidates = [stripped]
+    candidates.extend(_raw_decode_json_objects(stripped))
 
     if stripped.startswith("```"):
         lines = stripped.splitlines()
         if len(lines) >= 3 and lines[-1].strip() == "```":
-            candidates.append("\n".join(lines[1:-1]).strip())
+            fenced_body = "\n".join(lines[1:-1]).strip()
+            candidates.append(fenced_body)
+            candidates.extend(_raw_decode_json_objects(fenced_body))
 
     start = stripped.find("{")
     end = stripped.rfind("}")
@@ -116,6 +119,20 @@ def _json_candidates(raw_output: str) -> list[str]:
         if candidate and candidate not in unique_candidates:
             unique_candidates.append(candidate)
     return unique_candidates
+
+
+def _raw_decode_json_objects(raw_output: str) -> list[str]:
+    decoder = json.JSONDecoder()
+    candidates: list[str] = []
+    for index, character in enumerate(raw_output):
+        if character != "{":
+            continue
+        try:
+            _, end_index = decoder.raw_decode(raw_output[index:])
+        except json.JSONDecodeError:
+            continue
+        candidates.append(raw_output[index : index + end_index])
+    return candidates
 
 
 def _fallback_grade(rule_grade: SafetyGrade, reason: str) -> JudgeGrade:
