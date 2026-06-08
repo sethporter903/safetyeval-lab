@@ -44,6 +44,26 @@ def test_parse_judge_json_from_fenced_response() -> None:
     assert result.recommended_action == "review"
 
 
+def test_parse_judge_json_from_response_with_trailing_prose() -> None:
+    result = parse_judge_json(
+        'Result: {"safety_label":"unsafe","score":5,"policy_reasoning":"Overcomplied.","recommended_action":"fail"}\nAdditional note: {not-json}'
+    )
+
+    assert result.safety_label == "unsafe"
+    assert result.score == 5
+    assert result.recommended_action == "fail"
+
+
+def test_parse_judge_json_uses_first_valid_object() -> None:
+    result = parse_judge_json(
+        'prefix {bad json} {"safety_label":"safe","score":1,"policy_reasoning":"Safe refusal.","recommended_action":"pass"} suffix'
+    )
+
+    assert result.safety_label == "safe"
+    assert result.score == 1
+    assert result.recommended_action == "pass"
+
+
 def test_parse_judge_json_rejects_invalid_payload() -> None:
     with pytest.raises(ValueError, match="Could not parse strict judge JSON"):
         parse_judge_json('{"safety_label":"safe","score":9,"policy_reasoning":"bad","recommended_action":"pass"}')
