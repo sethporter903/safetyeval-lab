@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-label="SafetyEval Lab model comparison screenshot mockup">
+  <rect width="1200" height="760" fill="#f1f5f9"/>
+  <rect width="240" height="760" fill="#ffffff"/>
+  <rect x="20" y="220" width="200" height="40" rx="6" fill="#ccfbf1"/>
+  <text x="52" y="245" fill="#115e59" font-family="Arial" font-size="14" font-weight="700">Compare Runs</text>
+  <rect x="260" y="24" width="900" height="72" rx="8" fill="#ffffff"/>
+  <text x="288" y="56" fill="#64748b" font-family="Arial" font-size="12" font-weight="700">SAFETY TEAM CONSOLE</text>
+  <text x="288" y="82" fill="#17202a" font-family="Arial" font-size="28" font-weight="700">Compare Runs</text>
+  <rect x="260" y="122" width="886" height="144" rx="8" fill="#ffffff"/>
+  <text x="284" y="156" fill="#17202a" font-family="Arial" font-size="18" font-weight="700">Select eval runs</text>
+  <rect x="284" y="184" width="248" height="58" rx="6" fill="#ecfeff" stroke="#0f766e"/>
+  <text x="310" y="218" fill="#17202a" font-family="Arial" font-size="15" font-weight="700">Run 41 - mock-safety-v1</text>
+  <rect x="552" y="184" width="248" height="58" rx="6" fill="#ecfeff" stroke="#0f766e"/>
+  <text x="578" y="218" fill="#17202a" font-family="Arial" font-size="15" font-weight="700">Run 42 - gpt-4o-mini</text>
+  <rect x="822" y="184" width="130" height="44" rx="6" fill="#0f766e"/>
+  <text x="852" y="212" fill="#ffffff" font-family="Arial" font-size="14" font-weight="700">Compare</text>
+  <rect x="260" y="292" width="432" height="260" rx="8" fill="#ffffff"/>
+  <text x="284" y="326" fill="#17202a" font-family="Arial" font-size="18" font-weight="700">Pass and unsafe rates</text>
+  <rect x="330" y="420" width="52" height="92" fill="#0f766e"/>
+  <rect x="392" y="500" width="52" height="12" fill="#b91c1c"/>
+  <rect x="520" y="390" width="52" height="122" fill="#0f766e"/>
+  <rect x="582" y="462" width="52" height="50" fill="#b91c1c"/>
+  <rect x="714" y="292" width="432" height="260" rx="8" fill="#ffffff"/>
+  <text x="738" y="326" fill="#17202a" font-family="Arial" font-size="18" font-weight="700">Average risk score</text>
+  <rect x="798" y="450" width="70" height="62" fill="#475569"/>
+  <rect x="990" y="380" width="70" height="132" fill="#475569"/>
+  <rect x="260" y="578" width="886" height="132" rx="8" fill="#ffffff"/>
+  <text x="284" y="612" fill="#17202a" font-family="Arial" font-size="18" font-weight="700">Side-by-side metrics</text>
+  <line x1="284" y1="638" x2="1120" y2="638" stroke="#e2e8f0"/>
+  <text x="284" y="670" fill="#64748b" font-family="Arial" font-size="14">Run</text>
+  <text x="460" y="670" fill="#64748b" font-family="Arial" font-size="14">Model</text>
+  <text x="650" y="670" fill="#64748b" font-family="Arial" font-size="14">Pass rate</text>
+  <text x="820" y="670" fill="#64748b" font-family="Arial" font-size="14">Unsafe rate</text>
+  <text x="1000" y="670" fill="#64748b" font-family="Arial" font-size="14">Avg risk</text>
+</svg>
