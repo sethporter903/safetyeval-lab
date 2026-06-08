@@ -5,138 +5,121 @@ SafetyEval Lab is a lightweight AI safety evaluation platform for running struct
 The project demonstrates:
 
 - LLM evaluation design
-- Safety/policy testing
-- Model comparison
+- Safety and policy testing
+- Model comparison and regression testing
 - Human-in-the-loop review
-- Risk scoring
+- Risk scoring and report generation
 - Full-stack AI engineering
 
-The implementation is intentionally lightweight but complete: it includes a FastAPI backend, React dashboard, SQLite persistence, mock provider for no-key demos, optional OpenAI and Anthropic providers, rule-based grading, optional LLM-as-judge grading, model comparison, and human-in-the-loop review.
+## Demo Video
+
+Demo video placeholder: add a 2-minute walkthrough link here.
+
+Suggested flow:
+
+1. Show eval suites and sanitized test cases.
+2. Run `jailbreak_basic` with the mock provider.
+3. Open the run dashboard and explain pass rate, unsafe rate, risk score, and category breakdown.
+4. Review one result as a human investigator.
+5. Export the Markdown safety report.
+6. Compare two runs to demonstrate regression testing.
+
+Use [docs/demo-script.md](docs/demo-script.md) as the recording script.
 
 ## Why This Matters
 
-AI systems should not be deployed on vibe checks alone. Safety teams need repeatable ways to test model behavior, inspect failures, compare regressions across model versions, and document residual risk before release.
+AI systems should not be deployed on informal spot checks alone. Safety, trust, and platform integrity teams need repeatable ways to evaluate model behavior, inspect failures, document residual risk, and compare regressions across model versions.
 
-SafetyEval Lab demonstrates several responsible deployment workflows:
+SafetyEval Lab connects core AI safety workflows:
 
-- **AI safety evals:** structured prompt suites, expected behaviors, severity labels, and measurable outcomes.
-- **Red teaming:** sanitized jailbreak, policy compliance, and public cyber-safety placeholder prompts that exercise refusal and safe-completion behavior.
-- **Regression testing:** compare two or more eval runs to identify safety drift between models, prompts, or providers.
-- **Human review:** reviewers can adjudicate automated grader output and add notes for auditability.
-- **Deployment documentation:** generated Markdown reports summarize methodology, metrics, limitations, and recommendations.
+- **Evals:** structured suites with expected behavior, category, severity, and tags.
+- **Red teaming:** sanitized jailbreak and policy-compliance prompts that test refusal behavior without public harmful details.
+- **Trust and safety review:** human adjudication and reviewer notes for borderline or failed cases.
+- **Responsible deployment:** scoring, comparison, and Markdown reports suitable for launch review artifacts.
 
-## Demo
+## Product Overview
 
-One-command local setup:
+SafetyEval Lab lets a reviewer:
 
-```bash
-docker compose up --build
-```
-
-Then open:
-
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:8000`
-- API docs: `http://localhost:8000/docs`
-
-The app runs without API keys using the built-in mock provider.
+1. Browse JSONL eval suites.
+2. Run a selected suite against a mock, OpenAI, or Anthropic provider.
+3. Grade outputs with transparent heuristics and optional LLM-as-judge review.
+4. Inspect run dashboards with safety metrics and case-level detail.
+5. Mark results as pass, review, or fail with reviewer notes.
+6. Compare model runs side by side.
+7. Export investigator-style Markdown reports.
 
 ## Demo Screenshots
 
-| Dashboard | Eval Suites | Model Comparison |
+Replace these placeholders with real screenshots captured from the running app before publishing the portfolio link.
+
+| Screen | Placeholder | Capture Instructions |
 | --- | --- | --- |
-| ![Run dashboard](docs/screenshots/run-dashboard.svg) | ![Eval suites](docs/screenshots/eval-suites.svg) | ![Model comparison](docs/screenshots/model-comparison.svg) |
+| Run Dashboard | ![Run dashboard placeholder](docs/screenshots/run-dashboard.svg) | Create a mock eval run, open `#/runs/{run_id}`, and capture the summary cards/charts. |
+| Eval Suites | ![Eval suites placeholder](docs/screenshots/eval-suites.svg) | Open `#/suites`, select `jailbreak_basic`, and capture the case table. |
+| Model Comparison | ![Model comparison placeholder](docs/screenshots/model-comparison.svg) | Create two runs, open `#/compare`, select both, and capture charts/tables. |
 
-These SVG screenshots are lightweight portfolio mockups of the implemented screens. When recording a live demo, replace or supplement them with real browser screenshots from the running app.
+## Sample Findings
 
-## Example Report
+Example output from a mock `jailbreak_basic` run:
 
-See [docs/example-eval-report.md](docs/example-eval-report.md) for a sample exported Markdown report.
+- **Pass rate:** 100%
+- **Unsafe rate:** 0%
+- **Average risk score:** 0/100
+- **Refusal quality:** 100/100
+- **Finding:** The mock model consistently refused sanitized unsafe-placeholder requests and redirected to safe alternatives.
+- **Human review workflow:** Reviewers can still mark individual results as `pass`, `review`, or `fail` and attach notes for auditability.
 
-Reports can also be generated directly from a run:
-
-```bash
-curl http://localhost:8000/api/eval-runs/1/report.md
-```
+See [docs/example-eval-report.md](docs/example-eval-report.md) for a portfolio-ready exported report.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    User["Safety reviewer"] --> UI["React + TypeScript frontend"]
+    Reviewer["Safety reviewer"] --> UI["React + TypeScript frontend"]
     UI --> API["FastAPI backend"]
     API --> Suites["JSONL eval suites"]
-    API --> DB[("SQLite database")]
+    API --> DB[("SQLite")]
     API --> Providers["Provider registry"]
-    Providers --> Mock["Mock provider"]
-    Providers --> OpenAI["OpenAI provider"]
-    Providers --> Anthropic["Anthropic provider"]
-    API --> Grader["Rule-based safety grader"]
-    API --> Judge["Optional LLM-as-judge"]
-    API --> Scoring["Scoring and comparison engine"]
-    API --> Reports["Markdown report generator"]
+    Providers --> Mock["Mock"]
+    Providers --> OpenAI["OpenAI"]
+    Providers --> Anthropic["Anthropic"]
+    API --> Grader["Rule-based grader"]
+    API --> Judge["Optional LLM judge"]
+    API --> Scoring["Scoring + comparison"]
+    API --> Reports["Markdown reports"]
     Grader --> DB
     Judge --> DB
     Scoring --> UI
     Reports --> UI
 ```
 
-## Core Features
-
-- File-backed eval suites stored as JSONL
-- Mock provider for deterministic local demos
-- OpenAI and Anthropic provider adapters
-- Rule-based safety grader with explainable heuristics
-- Optional LLM-as-judge grading with robust JSON parsing and fallback behavior
-- Synchronous eval run execution, structured to move to a job queue later
-- Aggregated scoring engine
-- Human review workflow for pass, review, and fail decisions
-- Model comparison across two or more eval runs
-- Markdown report export
-- Docker Compose local stack
-- GitHub Actions CI
+More detail: [docs/architecture.md](docs/architecture.md)
 
 ## Tech Stack
 
-- Backend: Python, FastAPI, SQLAlchemy, SQLite
-- Frontend: React, TypeScript, Tailwind CSS
-- Charts: Recharts
-- Testing: pytest, TypeScript build
-- Runtime: Docker and Docker Compose
+- Backend: FastAPI, SQLAlchemy, SQLite, pytest
+- Frontend: React, TypeScript, Tailwind CSS, Recharts
+- Providers: mock, OpenAI, Anthropic
+- DevOps: Docker Compose, GitHub Actions CI
 
-## Repository Structure
+## One-Command Local Setup
 
-```text
-.
-|-- .github/workflows/ci.yml
-|-- backend/
-|   |-- app/
-|   |   |-- api/
-|   |   |-- core/
-|   |   |-- data/eval_suites/
-|   |   |-- db/
-|   |   |-- models/
-|   |   |-- schemas/
-|   |   `-- services/
-|   `-- tests/
-|-- docs/
-|   |-- example-eval-report.md
-|   `-- screenshots/
-|-- frontend/
-|   `-- src/
-|-- docker-compose.yml
-`-- README.md
+```bash
+docker compose up --build
 ```
+
+Open:
+
+- Frontend: `http://localhost:5173`
+- API docs: `http://localhost:8000/docs`
+- Health check: `http://localhost:8000/health`
+
+The default mock provider requires no API keys.
 
 ## Seed Demo Data
 
-The backend seeds the database at startup with:
-
-- Mock model provider
-- Starter safety smoke suite
-- Starter eval cases
-
-Public JSONL demo suites are included in `backend/app/data/eval_suites/`:
+The app includes sanitized public eval suites in `backend/app/data/eval_suites/`:
 
 - `jailbreak_basic.jsonl`
 - `policy_compliance.jsonl`
@@ -152,69 +135,22 @@ curl -X POST http://localhost:8000/api/eval-runs \
 
 ## Security and Safety Note
 
-The public eval prompts in this repository are intentionally sanitized. They use benign placeholder language to exercise refusal behavior, safe-completion behavior, and policy compliance without including real harmful instructions, operational exploit details, or actionable dangerous content.
+The public eval prompts are intentionally sanitized. They use benign placeholder language to test refusal behavior, safe-completion behavior, and policy compliance without including real harmful instructions, exploit steps, or actionable dangerous content.
 
-This makes the repo safe to share publicly while still demonstrating the evaluation architecture used for AI safety workflows.
+This keeps the repository safe to share publicly while still demonstrating realistic AI safety evaluation mechanics.
 
 ## API Highlights
 
 ```text
-GET   /health
 GET   /api/eval-suites
-GET   /api/eval-suites/{suite_name}
 GET   /api/providers
-POST  /api/providers/test
 POST  /api/eval-runs
 POST  /api/eval-runs/compare
-GET   /api/eval-runs/{run_id}
-GET   /api/eval-runs/{run_id}/results
 GET   /api/eval-runs/{run_id}/summary
+GET   /api/eval-runs/{run_id}/results
 GET   /api/eval-runs/{run_id}/report.md
 PATCH /api/eval-results/{result_id}/review
 ```
-
-## Local Development
-
-Backend:
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## Configuration
-
-Copy `.env.example` to `.env` for local configuration.
-
-```env
-APP_NAME=SafetyEval Lab
-ENVIRONMENT=development
-DATABASE_URL=sqlite:///./safetyeval.db
-BACKEND_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
-VITE_API_BASE_URL=http://localhost:8000
-OPENAI_API_KEY=
-ANTHROPIC_API_KEY=
-LLM_JUDGE_ENABLED=false
-```
-
-Provider behavior:
-
-- `mock`: deterministic local provider, no credentials required
-- `openai`: uses `OPENAI_API_KEY`
-- `anthropic`: uses `ANTHROPIC_API_KEY`
-
-If a real provider key is missing, the API returns a clear configuration error.
 
 ## Testing
 
@@ -232,19 +168,17 @@ cd frontend
 npm run build
 ```
 
-CI runs both checks on every push and pull request.
+GitHub Actions runs both checks on push and pull request.
 
-## Design Notes
+## Known Limitations / Future Work
 
-- SQLite and synchronous execution keep the demo simple and easy to run locally.
-- Service-layer boundaries isolate providers, grading, scoring, reporting, and review workflows.
-- Eval execution is currently synchronous, but the orchestration service is structured so it can move to Celery, RQ, Dramatiq, or another job queue.
-- `Base.metadata.create_all` is used for demo schema creation. A production deployment should add Alembic migrations.
+- Eval execution is synchronous; production usage should move long-running runs to a job queue.
+- SQLite is used for local portability; production deployments should use Postgres and Alembic migrations.
+- The rule-based grader is transparent but intentionally simple; larger suites should add calibrated graders and expert review.
+- LLM-as-judge can fail or drift; future work should persist structured judge metadata and track judge/rule disagreement.
+- Authentication, authorization, reviewer identity, and audit logs are not yet implemented.
+- Demo screenshots should be replaced with live screenshots before public portfolio publication.
 
-## Portfolio Talking Points
+## Resume Bullet
 
-- Demonstrates AI safety engineering beyond prompt demos.
-- Shows backend architecture for eval execution, grading, scoring, and reporting.
-- Provides frontend workflows for safety review, model benchmarking, and human adjudication.
-- Keeps public red-team prompts sanitized while preserving realistic evaluation mechanics.
-- Includes CI, Docker, tests, docs, and demo artifacts suitable for an employer review.
+Built **SafetyEval Lab**, a full-stack AI safety evaluation platform using FastAPI, React, TypeScript, SQLAlchemy, and Docker; implemented JSONL eval suites, mock/OpenAI/Anthropic provider abstraction, rule-based and optional LLM-as-judge grading, human review workflows, model comparison dashboards, regression metrics, CI, and Markdown safety report generation.
