@@ -58,7 +58,7 @@ flowchart TB
 - `scoring.py`: run-level aggregate metrics.
 - `comparison.py`: side-by-side run benchmarking.
 - `reviews.py`: human-in-the-loop adjudication.
-- `reporting.py`: portfolio-ready Markdown report generation.
+- `reporting.py`: Markdown report generation.
 
 ## Production Hardening Opportunities
 

@@ -11,11 +11,9 @@ The project demonstrates:
 - Risk scoring and report generation
 - Full-stack AI engineering
 
-## Demo Video
+## Demo
 
-Demo video placeholder: add a 2-minute walkthrough link here.
-
-Suggested flow:
+Run the app locally with Docker Compose, then use this flow to exercise the main features:
 
 1. Show eval suites and sanitized test cases.
 2. Run `jailbreak_basic` with the mock provider.
@@ -23,8 +21,6 @@ Suggested flow:
 4. Review one result as a human investigator.
 5. Export the Markdown safety report.
 6. Compare two runs to demonstrate regression testing.
-
-Use [docs/demo-script.md](docs/demo-script.md) as the recording script.
 
 ## Why This Matters
 
@@ -49,15 +45,15 @@ SafetyEval Lab lets a reviewer:
 6. Compare model runs side by side.
 7. Export investigator-style Markdown reports.
 
-## Demo Screenshots
+## Screenshots
 
-Replace these placeholders with real screenshots captured from the running app before publishing the portfolio link.
+The screenshots below show the primary review surfaces in the app.
 
-| Screen | Placeholder | Capture Instructions |
+| Screen | Preview | Notes |
 | --- | --- | --- |
-| Run Dashboard | ![Run dashboard placeholder](docs/screenshots/run-dashboard.svg) | Create a mock eval run, open `#/runs/{run_id}`, and capture the summary cards/charts. |
-| Eval Suites | ![Eval suites placeholder](docs/screenshots/eval-suites.svg) | Open `#/suites`, select `jailbreak_basic`, and capture the case table. |
-| Model Comparison | ![Model comparison placeholder](docs/screenshots/model-comparison.svg) | Create two runs, open `#/compare`, select both, and capture charts/tables. |
+| Run Dashboard | ![Run dashboard](docs/screenshots/run-dashboard.svg) | Summary cards, charts, and failed/borderline case review. |
+| Eval Suites | ![Eval suites](docs/screenshots/eval-suites.svg) | JSONL suite browsing and case inspection. |
+| Model Comparison | ![Model comparison](docs/screenshots/model-comparison.svg) | Side-by-side regression and benchmarking view. |
 
 ## Sample Findings
 
@@ -67,10 +63,10 @@ Example output from a mock `jailbreak_basic` run:
 - **Unsafe rate:** 0%
 - **Average risk score:** 0/100
 - **Refusal quality:** 100/100
-- **Finding:** The mock model consistently refused sanitized unsafe-placeholder requests and redirected to safe alternatives.
+- **Finding:** The mock model consistently refused sanitized disallowed-request examples and redirected to safe alternatives.
 - **Human review workflow:** Reviewers can still mark individual results as `pass`, `review`, or `fail` and attach notes for auditability.
 
-See [docs/example-eval-report.md](docs/example-eval-report.md) for a portfolio-ready exported report.
+See [docs/example-eval-report.md](docs/example-eval-report.md) for a sample exported report.
 
 ## Architecture
 
@@ -135,7 +131,7 @@ curl -X POST http://localhost:8000/api/eval-runs \
 
 ## Security and Safety Note
 
-The public eval prompts are intentionally sanitized. They use benign placeholder language to test refusal behavior, safe-completion behavior, and policy compliance without including real harmful instructions, exploit steps, or actionable dangerous content.
+The public eval prompts are intentionally sanitized. They use benign synthetic language to test refusal behavior, safe-completion behavior, and policy compliance without including real harmful instructions, exploit steps, or actionable dangerous content.
 
 This keeps the repository safe to share publicly while still demonstrating realistic AI safety evaluation mechanics.
 
@@ -177,8 +173,4 @@ GitHub Actions runs both checks on push and pull request.
 - The rule-based grader is transparent but intentionally simple; larger suites should add calibrated graders and expert review.
 - LLM-as-judge can fail or drift; future work should persist structured judge metadata and track judge/rule disagreement.
 - Authentication, authorization, reviewer identity, and audit logs are not yet implemented.
-- Demo screenshots should be replaced with live screenshots before public portfolio publication.
-
-## Resume Bullet
-
-Built **SafetyEval Lab**, a full-stack AI safety evaluation platform using FastAPI, React, TypeScript, SQLAlchemy, and Docker; implemented JSONL eval suites, mock/OpenAI/Anthropic provider abstraction, rule-based and optional LLM-as-judge grading, human review workflows, model comparison dashboards, regression metrics, CI, and Markdown safety report generation.
+- Demo screenshots should be refreshed when the UI changes.

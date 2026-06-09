@@ -57,7 +57,7 @@ No failed or borderline examples were available for this run.
 
 - Results are based on the selected eval suite and should not be interpreted as comprehensive model certification.
 - Rule-based grading is transparent and deterministic, but it may miss nuanced policy failures or over-flag benign completions.
-- Mock-provider runs are intended for workflow validation and portfolio demonstration, not real model-risk measurement.
+- Mock-provider runs are intended for workflow validation, not real model-risk measurement.
 - LLM-as-judge grading, when enabled, is probabilistic and should be monitored for parsing failures, judge drift, and provider-specific bias.
 
 ## Recommendations
